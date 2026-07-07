@@ -13,7 +13,7 @@ export default function SiteLayout() {
           background:
             "linear-gradient(135deg, oklch(0.45 0.15 150), oklch(0.55 0.17 150), oklch(0.48 0.14 155))",
           backgroundImage:
-            "url('/assets/file_uOIGeWFxMLGIjEndEi7clGVj')",
+            "url('/assets/file_uOIGeWFxMLGIjEndEi7clGVj.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

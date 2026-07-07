@@ -26,7 +26,7 @@ export default function HeroSection() {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/30 aspect-[4/3]">
               <img
-                src="/assets/file_lBXpTenPGbaaSA7KeWBi1MjL"
+                src="/assets/file_lBXpTenPGbaaSA7KeWBi1MjL.webp"
                 alt="Сградата на Хоспис Маринела"
                 className="w-full h-full object-cover"
               />

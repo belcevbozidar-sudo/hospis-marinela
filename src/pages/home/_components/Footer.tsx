@@ -32,7 +32,7 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt"
+                src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt.webp"
                 alt="Хоспис Маринела"
                 className="h-10 w-auto object-contain"
               />

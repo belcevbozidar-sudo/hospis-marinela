@@ -215,7 +215,7 @@ export default function AdmissionPage() {
                   whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.9, ease: EASE }}
-                  src="/assets/file_lBXpTenPGbaaSA7KeWBi1MjL"
+                  src="/assets/file_lBXpTenPGbaaSA7KeWBi1MjL.webp"
                   alt="Хоспис Маринела сграда"
                   className="w-full h-[400px] sm:h-[500px] object-cover"
                 />

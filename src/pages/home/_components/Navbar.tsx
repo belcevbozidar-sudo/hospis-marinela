@@ -71,7 +71,7 @@ export default function Navbar() {
             className="flex items-center gap-3 cursor-pointer"
           >
             <img
-              src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt"
+              src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt.webp"
               alt="Хоспис Маринела"
               loading="eager"
               className="h-10 sm:h-12 w-auto object-contain"

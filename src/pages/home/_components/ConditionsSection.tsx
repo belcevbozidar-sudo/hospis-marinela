@@ -2,27 +2,27 @@ import { motion } from "motion/react";
 
 const CONDITIONS_IMAGES = [
   {
-    src: "/assets/file_nGP1HxB1a2nIgtITeAf75w2e",
+    src: "/assets/file_nGP1HxB1a2nIgtITeAf75w2e.webp",
     alt: "Арт терапия с пациенти",
     label: "Седмична арт терапия",
   },
   {
-    src: "/assets/file_HIG4Uj5TLP9xDlBbvTde5qA1",
+    src: "/assets/file_HIG4Uj5TLP9xDlBbvTde5qA1.webp",
     alt: "Рисунка на лалета от пациент",
     label: "Творби на пациенти",
   },
   {
-    src: "/assets/file_Rw7QTKkBNmBMUR0tVBtzbbFZ",
+    src: "/assets/file_Rw7QTKkBNmBMUR0tVBtzbbFZ.webp",
     alt: "Рисунка на жена с гълъб",
     label: "Изкуство и вдъхновение",
   },
   {
-    src: "/assets/file_ZTqNsnoQmvebS1Fo2ah4Zaf4",
+    src: "/assets/file_ZTqNsnoQmvebS1Fo2ah4Zaf4.webp",
     alt: "Пациенти рисуват заедно",
     label: "Творчески занимания",
   },
   {
-    src: "/assets/file_s3a3teFTBFoTmQukVJrO2OiA",
+    src: "/assets/file_s3a3teFTBFoTmQukVJrO2OiA.webp",
     alt: "Декоративна рисунка от пациент",
     label: "Ръчна изработка",
   },

@@ -10,27 +10,27 @@ type GalleryImage = {
 
 const GALLERY_IMAGES: GalleryImage[] = [
   {
-    src: "/assets/file_rPM4Y86HoG1corfQJr2evhfn",
+    src: "/assets/file_rPM4Y86HoG1corfQJr2evhfn.webp",
     alt: "Екипът на Хоспис Маринела — празнично събитие",
   },
   {
-    src: "/assets/file_VZiUDliUfCEnhBmusAwuhmBF",
+    src: "/assets/file_VZiUDliUfCEnhBmusAwuhmBF.webp",
     alt: "Екипът на Хоспис Маринела — в стаята на пациент",
   },
   {
-    src: "/assets/file_DaF4bPdATFy3jB23tg64vl80",
+    src: "/assets/file_DaF4bPdATFy3jB23tg64vl80.webp",
     alt: "Членове на екипа на Хоспис Маринела",
   },
   {
-    src: "/assets/file_m6Hmpzf23wEYuprXEEkGbBWQ",
+    src: "/assets/file_m6Hmpzf23wEYuprXEEkGbBWQ.webp",
     alt: "Екипът на Хоспис Маринела заедно",
   },
   {
-    src: "/assets/file_Hz5ltdZh64q1oZhjC87pMV3Y",
+    src: "/assets/file_Hz5ltdZh64q1oZhjC87pMV3Y.webp",
     alt: "Медицински екип на Хоспис Маринела",
   },
   {
-    src: "/assets/file_yPnN0VVow31Vx5wiiU60qotw",
+    src: "/assets/file_yPnN0VVow31Vx5wiiU60qotw.webp",
     alt: "Хоспис Маринела — грижа и отдаденост",
   },
 ];

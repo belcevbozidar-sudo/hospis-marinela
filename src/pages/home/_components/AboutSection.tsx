@@ -16,7 +16,11 @@ export default function AboutSection() {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/30">
               <img
-                src="https://images.unsplash.com/photo-1576560665905-28b4d4ea3380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NzIwMTN8MHwxfHNlYXJjaHwzfHxjYXJpbmclMjBudXJzZSUyMGVsZGVybHklMjBwYXRpZW50JTIwY29tcGFzc2lvbnxlbnwwfHx8fDE3NzM5NTU5MDJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="/assets/stock-1576560665905-28b4d4ea3380.jpg"
+                width={1080}
+                height={720}
+                loading="lazy"
+                decoding="async"
                 alt="Грижа за пациенти"
                 className="w-full h-[400px] sm:h-[500px] object-cover"
               />

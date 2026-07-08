@@ -116,6 +116,8 @@ export default function ConditionsSection() {
                 <img
                   src={CONDITIONS_IMAGES[0].src}
                   alt={CONDITIONS_IMAGES[0].alt}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-[260px] object-cover"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
@@ -138,6 +140,8 @@ export default function ConditionsSection() {
                 <img
                   src={img.src}
                   alt={img.alt}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-[200px] object-cover"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
@@ -160,6 +164,8 @@ export default function ConditionsSection() {
                 <img
                   src={img.src}
                   alt={img.alt}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-[200px] object-cover"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">

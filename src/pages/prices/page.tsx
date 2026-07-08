@@ -17,7 +17,13 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/prices");
+
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
@@ -56,10 +62,10 @@ const DOCUMENTS = [
 ];
 
 export default function PricesPage() {
-  const navigate = useNavigate();
 
   return (
     <div>
+      <JsonLd data={breadcrumbSchema("Цени", "/prices")} />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,15 +77,12 @@ export default function PricesPage() {
           >
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-medium">Цени</span>
             </div>
@@ -745,15 +748,14 @@ export default function PricesPage() {
                   За да изпратите съобщение чрез сайта:
                 </p>
                 <Button
+                  asChild
                   size="lg"
-                  onClick={() => {
-                    navigate("/contact");
-                    window.scrollTo({ top: 0 });
-                  }}
                   className="bg-accent text-accent-foreground hover:bg-accent/90 text-base px-8"
                 >
-                  <Phone className="h-5 w-5 mr-2" />
-                  Към формата за контакт
+                  <Link to="/contact">
+                    <Phone className="h-5 w-5 mr-2" />
+                    Към формата за контакт
+                  </Link>
                 </Button>
               </motion.div>
             </motion.div>

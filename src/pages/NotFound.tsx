@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button.tsx";
+import { buildMeta } from "@/lib/seo.ts";
+
+export const meta = () => buildMeta("/404");
 
 export default function NotFound() {
   const location = useLocation();

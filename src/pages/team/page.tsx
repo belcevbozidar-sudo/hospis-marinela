@@ -10,7 +10,13 @@ import {
   Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/team");
+
 
 type TeamMember = {
   name: string;
@@ -146,6 +152,7 @@ export default function TeamPage() {
 
   return (
     <div>
+      <JsonLd data={breadcrumbSchema("Екип", "/team")} />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12 bg-gradient-to-br from-primary/90 to-primary/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -157,15 +164,12 @@ export default function TeamPage() {
           >
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-medium">Нашият екип</span>
             </div>
@@ -197,6 +201,10 @@ export default function TeamPage() {
               <div className="relative overflow-hidden">
                 <motion.img
                   src="/assets/file_u1w1JBSBtG6acBqLqTPfcE7G.webp"
+                width={1073}
+                height={1600}
+                loading="lazy"
+                decoding="async"
                   alt="Веселка Георгиева Терзийска"
                   initial={{ opacity: 0, scale: 1.06, filter: "blur(12px)" }}
                   whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -339,6 +347,10 @@ export default function TeamPage() {
               <div className="relative overflow-hidden order-1 lg:order-2">
                 <motion.img
                   src="/assets/file_5u0kyVikkV9vQp62IDPYpHSO.webp"
+                width={1024}
+                height={1536}
+                loading="lazy"
+                decoding="async"
                   alt="Калина Цветанова Славкова-Петрова"
                   initial={{ opacity: 0, scale: 1.06, filter: "blur(12px)" }}
                   whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -368,6 +380,10 @@ export default function TeamPage() {
               <div className="relative overflow-hidden">
                 <motion.img
                   src="/assets/file_rubvbKGXx8RdmH0L2RK1Y6Kj.webp"
+                width={1024}
+                height={1024}
+                loading="lazy"
+                decoding="async"
                   alt="Д-р Александър Шахов"
                   initial={{ opacity: 0, scale: 1.06, filter: "blur(12px)" }}
                   whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -600,6 +616,10 @@ export default function TeamPage() {
           >
             <img
               src="/assets/file_N9RO4H0P4lYgNddWjrQHP4WS.webp"
+                width={1000}
+                height={714}
+                loading="lazy"
+                decoding="async"
               alt="Медицински екип на Хоспис Маринела"
               className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
             />

@@ -1,6 +1,15 @@
 import { motion } from "motion/react";
 import { ChevronRight, Quote, Star, Heart, Phone } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import {
+  breadcrumbSchema,
+  reviewsSchema,
+} from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/reviews");
+
 
 type Review = {
   name: string;
@@ -183,10 +192,17 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
 }
 
 export default function ReviewsPage() {
-  const navigate = useNavigate();
 
   return (
     <div>
+      <JsonLd
+        data={[
+          breadcrumbSchema("Отзиви", "/reviews"),
+          reviewsSchema(
+            REVIEWS.map((r) => ({ author: r.name, text: r.text })),
+          ),
+        ]}
+      />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-16 sm:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -197,15 +213,12 @@ export default function ReviewsPage() {
             className="text-center"
           >
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 font-medium mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-semibold">Отзиви</span>
             </div>

@@ -53,7 +53,11 @@ export default function TeamSection() {
           >
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1765896387387-0538bc9f997e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NzIwMTN8MHwxfHNlYXJjaHw5fHxjYXJpbmclMjBudXJzZSUyMGVsZGVybHklMjBwYXRpZW50JTIwY29tcGFzc2lvbnxlbnwwfHx8fDE3NzM5NTU5MDJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="/assets/stock-1765896387387-0538bc9f997e.jpg"
+                width={1080}
+                height={764}
+                loading="lazy"
+                decoding="async"
                 alt="Медицински екип на Хоспис Маринела"
                 className="w-full h-[350px] sm:h-[420px] object-cover"
               />

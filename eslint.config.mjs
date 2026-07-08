@@ -25,7 +25,11 @@ export default defineConfig([
       "prefer-const": "off",
       "react-refresh/only-export-components": [
         "warn",
-        { allowConstantExport: true },
+        {
+          allowConstantExport: true,
+          // React Router route-module exports
+          allowExportNames: ["meta", "links", "headers", "loader", "action"],
+        },
       ],
     },
     languageOptions: {

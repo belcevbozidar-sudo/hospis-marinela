@@ -1,5 +1,5 @@
 import { Phone, MapPin, Heart, Facebook } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,11 +19,6 @@ export default function Footer() {
     }
   };
 
-  const goToPage = (path: string) => {
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="relative z-10 bg-[oklch(0.25_0.06_150)] text-white/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -33,6 +28,10 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <img
                 src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt.webp"
+                width={1050}
+                height={1024}
+                loading="lazy"
+                decoding="async"
                 alt="Хоспис Маринела"
                 className="h-10 w-auto object-contain"
               />
@@ -54,60 +53,60 @@ export default function Footer() {
               Навигация
             </h4>
             <div className="space-y-2">
-              <button
-                onClick={() => goToPage("/")}
+              <Link
+                to="/"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Начало
-              </button>
-              <button
-                onClick={() => goToPage("/about")}
+              </Link>
+              <Link
+                to="/about"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 За нас
-              </button>
-              <button
-                onClick={() => goToPage("/services")}
+              </Link>
+              <Link
+                to="/services"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Услуги
-              </button>
-              <button
-                onClick={() => goToPage("/admission")}
+              </Link>
+              <Link
+                to="/admission"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Прием
-              </button>
-              <button
-                onClick={() => goToPage("/prices")}
+              </Link>
+              <Link
+                to="/prices"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Цени
-              </button>
+              </Link>
               <button
                 onClick={() => scrollToSection("#conditions")}
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Условия
               </button>
-              <button
-                onClick={() => goToPage("/team")}
+              <Link
+                to="/team"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Екип
-              </button>
-              <button
-                onClick={() => goToPage("/reviews")}
+              </Link>
+              <Link
+                to="/reviews"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Отзиви
-              </button>
-              <button
-                onClick={() => goToPage("/contact")}
+              </Link>
+              <Link
+                to="/contact"
                 className="block text-sm text-white/70 hover:text-accent transition-colors cursor-pointer"
               >
                 Контакти
-              </button>
+              </Link>
             </div>
           </div>
 

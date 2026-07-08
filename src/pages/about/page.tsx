@@ -13,7 +13,13 @@ import {
   Quote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/about");
+
 
 const PRINCIPLES = [
   {
@@ -82,6 +88,7 @@ export default function AboutPage() {
 
   return (
     <div>
+      <JsonLd data={breadcrumbSchema("За нас", "/about")} />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,15 +100,12 @@ export default function AboutPage() {
           >
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-medium">За нас</span>
             </div>
@@ -134,7 +138,11 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-                  src="https://images.unsplash.com/photo-1576560665905-28b4d4ea3380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NzIwMTN8MHwxfHNlYXJjaHw2fHxlbGRlcmx5JTIwY2FyZSUyMGNvbXBhc3Npb24lMjBudXJzZSUyMGhvbGRpbmclMjBoYW5kcyUyMHdhcm10aHxlbnwwfHx8fDE3NzM5OTE1MDV8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="/assets/stock-1576560665905-28b4d4ea3380.jpg"
+                width={1080}
+                height={720}
+                loading="lazy"
+                decoding="async"
                   alt="Грижа с топлина"
                   className="w-full h-[400px] sm:h-[500px] object-cover"
                 />
@@ -392,7 +400,11 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-                  src="https://images.unsplash.com/photo-1602152563796-29267eb24c0f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NzIwMTN8MHwxfHNlYXJjaHwzfHxlbGRlcmx5JTIwY2FyZSUyMGNvbXBhc3Npb24lMjBudXJzZSUyMGhvbGRpbmclMjBoYW5kcyUyMHdhcm10aHxlbnwwfHx8fDE3NzM5OTE1MDV8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="/assets/stock-1602152563796-29267eb24c0f.jpg"
+                width={1080}
+                height={1620}
+                loading="lazy"
+                decoding="async"
                   alt="Подкрепа за семействата"
                   className="w-full h-[350px] sm:h-[400px] object-cover"
                 />

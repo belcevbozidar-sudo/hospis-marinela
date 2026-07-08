@@ -16,7 +16,12 @@ import {
   Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/admission");
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
@@ -64,15 +69,10 @@ const RULES = [
 ];
 
 export default function AdmissionPage() {
-  const navigate = useNavigate();
-
-  const scrollToContact = () => {
-    navigate("/contact");
-    window.scrollTo({ top: 0 });
-  };
 
   return (
     <div>
+      <JsonLd data={breadcrumbSchema("Прием", "/admission")} />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,15 +84,12 @@ export default function AdmissionPage() {
           >
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-medium">Прием</span>
             </div>
@@ -216,6 +213,10 @@ export default function AdmissionPage() {
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.9, ease: EASE }}
                   src="/assets/file_lBXpTenPGbaaSA7KeWBi1MjL.webp"
+                width={1067}
+                height={1600}
+                loading="lazy"
+                decoding="async"
                   alt="Хоспис Маринела сграда"
                   className="w-full h-[400px] sm:h-[500px] object-cover"
                 />
@@ -344,12 +345,14 @@ export default function AdmissionPage() {
               Свържете се с управителките за безплатна консултация.
             </p>
             <Button
+              asChild
               size="lg"
-              onClick={scrollToContact}
               className="bg-accent text-accent-foreground hover:bg-accent/90 text-base px-8 relative z-10"
             >
-              <Phone className="h-5 w-5 mr-2" />
-              Свържете се с нас
+              <Link to="/contact">
+                <Phone className="h-5 w-5 mr-2" />
+                Свържете се с нас
+              </Link>
             </Button>
           </motion.div>
         </div>

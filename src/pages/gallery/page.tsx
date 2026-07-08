@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronRight, X, ChevronLeft, ChevronRightIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/gallery");
+
 
 type GalleryImage = {
   src: string;
@@ -36,7 +42,6 @@ const GALLERY_IMAGES: GalleryImage[] = [
 ];
 
 export default function GalleryPage() {
-  const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const openLightbox = (index: number) => setSelectedIndex(index);
@@ -56,6 +61,7 @@ export default function GalleryPage() {
 
   return (
     <div>
+      <JsonLd data={breadcrumbSchema("Галерия", "/gallery")} />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,15 +73,12 @@ export default function GalleryPage() {
           >
             {/* Breadcrumb */}
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-medium">Галерия</span>
             </div>
@@ -86,6 +89,12 @@ export default function GalleryPage() {
             <p className="text-lg sm:text-xl text-white/90 mt-4 max-w-2xl mx-auto text-balance">
               Моменти от ежедневието на Хоспис Маринела — грижа, екипност и
               топлина
+            </p>
+            <p className="text-base text-white/80 mt-4 max-w-3xl mx-auto leading-relaxed">
+              Разгледайте снимки от нашата база в кв. Овча купел, София —
+              стаите за настаняване, общите пространства и всекидневието на
+              медицинския ни екип. Снимките показват средата, в която полагаме
+              денонощни грижи за нашите пациенти.
             </p>
             <div className="w-20 h-1 bg-accent rounded-full mt-6 mx-auto" />
           </motion.div>
@@ -123,6 +132,8 @@ export default function GalleryPage() {
                 <img
                   src={image.src}
                   alt={image.alt}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />

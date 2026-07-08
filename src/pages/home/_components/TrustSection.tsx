@@ -28,7 +28,7 @@ export default function TrustSection() {
   return (
     <section id="trust" className="py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.h3
+        <motion.h2
           initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true }}
@@ -37,7 +37,7 @@ export default function TrustSection() {
           style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5), 0 4px 20px rgba(0,0,0,0.3)" }}
         >
           Доверете се на нас!
-        </motion.h3>
+        </motion.h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {TRUST_ITEMS.map((item, index) => (
             <motion.div

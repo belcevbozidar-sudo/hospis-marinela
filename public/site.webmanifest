@@ -1,0 +1,22 @@
+{
+  "name": "Хоспис „Маринела“",
+  "short_name": "Хоспис Маринела",
+  "description": "Денонощни медицински и палиативни грижи за възрастни и лежащо болни в София.",
+  "lang": "bg",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#1f7a4d",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

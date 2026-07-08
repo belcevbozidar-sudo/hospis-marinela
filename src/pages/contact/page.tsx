@@ -9,7 +9,13 @@ import {
   TrainFront,
   Navigation,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+
+export const meta = () => buildMeta("/contact");
+
 
 const TRANSPORT = [
   {
@@ -33,10 +39,10 @@ const TRANSPORT = [
 ];
 
 export default function ContactPage() {
-  const navigate = useNavigate();
 
   return (
     <div>
+      <JsonLd data={breadcrumbSchema("Контакти", "/contact")} />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,15 +53,12 @@ export default function ContactPage() {
             className="text-center"
           >
             <div className="flex items-center justify-center gap-2 text-sm text-white/80 mb-6">
-              <button
-                onClick={() => {
-                  navigate("/");
-                  window.scrollTo({ top: 0 });
-                }}
+              <Link
+                to="/"
                 className="hover:text-primary transition-colors cursor-pointer"
               >
                 Начало
-              </button>
+              </Link>
               <ChevronRight className="h-4 w-4" />
               <span className="text-primary font-medium">Контакти</span>
             </div>

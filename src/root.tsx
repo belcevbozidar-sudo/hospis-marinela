@@ -47,6 +47,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="author" content="Хоспис Маринела" />
         <meta name="theme-color" content="#1f7a4d" />
+        <meta
+          name="google-site-verification"
+          content="PSocSfbNvq1F1p6-kV02YURDDL-zgflwzdBXUAd_gwI"
+        />
         <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

@@ -1,4 +1,7 @@
-export const SITE_URL = "https://marinelahospis.com";
+// Vercel's domain config 308-redirects the apex to www, so www is the
+// URL that actually resolves with 200 — canonical/OG must match it to
+// avoid sending crawlers through an extra redirect hop.
+export const SITE_URL = "https://www.marinelahospis.com";
 export const SITE_NAME = 'Хоспис "Маринела"';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 

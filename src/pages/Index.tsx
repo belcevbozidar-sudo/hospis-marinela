@@ -4,6 +4,7 @@ import AboutSection from "./home/_components/AboutSection.tsx";
 import ServicesSection from "./home/_components/ServicesSection.tsx";
 import ConditionsSection from "./home/_components/ConditionsSection.tsx";
 import TeamSection from "./home/_components/TeamSection.tsx";
+import ReviewsSection from "./home/_components/ReviewsSection.tsx";
 import ContactSection from "./home/_components/ContactSection.tsx";
 import { buildMeta } from "@/lib/seo.ts";
 import {
@@ -24,6 +25,7 @@ export default function Index() {
       <ServicesSection />
       <ConditionsSection />
       <TeamSection />
+      <ReviewsSection />
       <ContactSection />
     </>
   );

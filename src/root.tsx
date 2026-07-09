@@ -13,6 +13,7 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'AW-18070778544');
+gtag('config', 'AW-18310978433');
 `;
 
 // Detect dark mode preference and set the class before next-themes loads.

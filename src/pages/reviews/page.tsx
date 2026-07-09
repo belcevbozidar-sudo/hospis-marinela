@@ -289,7 +289,7 @@ export default function ReviewsPage() {
             className="flex flex-wrap justify-center gap-6 sm:gap-12 mt-10"
           >
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-primary">
+              <div className="text-3xl sm:text-4xl font-bold text-white">
                 {REVIEWS.length}
               </div>
               <div className="text-sm text-white/90 font-medium mt-1">
@@ -310,7 +310,7 @@ export default function ReviewsPage() {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-primary">
+              <div className="text-3xl sm:text-4xl font-bold text-white">
                 15+
               </div>
               <div className="text-sm text-white/90 font-medium mt-1">

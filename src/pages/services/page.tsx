@@ -190,6 +190,29 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* Intro banner */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: EASE }}
+            className="rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/30"
+          >
+            <img
+              src="/assets/banner-uslugi-denonoshtni-grizhi.webp"
+              width={1254}
+              height={1254}
+              loading="lazy"
+              decoding="async"
+              alt="Денонощни грижи за възрастни и лежащо болни в София — денонощна грижа и наблюдение, професионален медицински екип, уютна среда и човешко отношение в Хоспис Маринела"
+              className="w-full h-auto"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Who We Serve */}
       <section className="py-12 sm:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

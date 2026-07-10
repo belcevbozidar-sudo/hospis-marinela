@@ -319,6 +319,29 @@ export default function AdmissionPage() {
         </div>
       </section>
 
+      {/* Trust banner */}
+      <section className="py-8 sm:py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: EASE }}
+            className="rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/30"
+          >
+            <img
+              src="/assets/banner-nastanyavane-doverie.webp"
+              width={1254}
+              height={1254}
+              loading="lazy"
+              decoding="async"
+              alt="Грижа с професионализъм и отношение със сърце — медицинска сестра и пациентка в Хоспис Маринела, София"
+              className="w-full h-auto"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Closing CTA Banner */}
       <section className="py-16 sm:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

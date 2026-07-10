@@ -376,6 +376,29 @@ export default function ReviewsPage() {
         </div>
       </section>
 
+      {/* Emotional banner */}
+      <section className="py-8 sm:py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            className="rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/30"
+          >
+            <img
+              src="/assets/banner-grizha-s-vnimanie-i-sarce.webp"
+              width={1600}
+              height={1343}
+              loading="lazy"
+              decoding="async"
+              alt="Не всяка грижа се измерва с лекарства — усмивката, добрата дума, подадената ръка и чувството за сигурност в Хоспис Маринела"
+              className="w-full h-auto"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

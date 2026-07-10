@@ -12,14 +12,14 @@ export default function HeroSection() {
     <section id="hero" className="min-h-screen flex items-center pt-24 pb-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Building photo */}
+          {/* Care banner */}
           <div className="relative lg:order-2 hero-zoom [animation-delay:0.3s]">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/30 aspect-[4/3]">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/30 aspect-square">
               <img
-                src="/assets/file_lBXpTenPGbaaSA7KeWBi1MjL.webp"
-                alt="Сградата на Хоспис Маринела в кв. Овча купел, София"
-                width={1200}
-                height={900}
+                src="/assets/banner-uslugi-denonoshtni-grizhi.webp"
+                alt="Денонощни грижи за възрастни и лежащо болни в София — денонощна грижа и наблюдение, професионален медицински екип, уютна среда и човешко отношение в Хоспис Маринела"
+                width={1254}
+                height={1254}
                 fetchPriority="high"
                 className="w-full h-full object-cover"
               />

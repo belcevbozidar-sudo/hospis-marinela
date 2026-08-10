@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "./supabaseAdmin";
+import { supabaseAdmin } from "./supabaseAdmin.js";
 
 const MAX_ATTEMPTS = 5;
 const LOCK_DURATION_MS = 60 * 60 * 1000; // 1 час

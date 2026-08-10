@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { parseCookie, stringifySetCookie } from "cookie";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { supabaseAdmin } from "./supabaseAdmin";
+import { supabaseAdmin } from "./supabaseAdmin.js";
 
 export const SESSION_COOKIE = "hm_admin_session";
 const REMEMBER_MS = 14 * 24 * 60 * 60 * 1000; // 14 дни

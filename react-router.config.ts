@@ -1,6 +1,9 @@
 import type { Config } from "@react-router/dev/config";
-import { vercelPreset } from "@vercel/react-router/vite";
 
+// No vercelPreset() here: that preset writes the Build Output API directly
+// and takes exclusive ownership of `.vercel/output`, which silently skips
+// Vercel's zero-config detection of the sibling /api serverless functions.
+// Plain static output + vercel.json rewrites (see below) keeps both working.
 export default {
   appDirectory: "src",
   ssr: false,
@@ -17,5 +20,4 @@ export default {
     "/prices",
     "/gallery",
   ],
-  presets: [vercelPreset()],
 } satisfies Config;

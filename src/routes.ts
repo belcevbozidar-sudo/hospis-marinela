@@ -16,6 +16,14 @@ export default [
     route("admission", "pages/admission/page.tsx"),
     route("prices", "pages/prices/page.tsx"),
     route("gallery", "pages/gallery/page.tsx"),
+    route("news", "pages/news/List.tsx"),
+    route("news/:slug", "pages/news/Article.tsx"),
+  ]),
+  route("admin", "pages/admin/AdminApp.tsx", [
+    index("pages/admin/Dashboard.tsx"),
+    route("news", "pages/admin/NewsList.tsx"),
+    route("news/new", "pages/admin/NewsEditor.tsx", { id: "admin-news-new" }),
+    route("news/:id", "pages/admin/NewsEditor.tsx", { id: "admin-news-edit" }),
   ]),
   route("*", "pages/NotFound.tsx"),
 ] satisfies RouteConfig;

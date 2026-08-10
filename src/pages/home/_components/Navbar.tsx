@@ -20,6 +20,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Екип", href: "/team", type: "page" },
   { label: "Галерия", href: "/gallery", type: "page" },
   { label: "Отзиви", href: "/reviews", type: "page" },
+  { label: "Новини", href: "/news", type: "page" },
   { label: "Контакти", href: "/contact", type: "page" },
 ];
 

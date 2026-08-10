@@ -9,6 +9,11 @@ import { z } from "zod";
  * данни, дори ако някой се сдобие с достъп до него.
  */
 
+// Всички обекти по-долу са `.strict()`: ако пристигне поле, което не
+// е описано в схемата, заявката се отхвърля вместо полето мълчаливо
+// да се премахне. Така всяко разминаване е видимо веднага, а не се
+// записва наполовина обработено съдържание.
+
 // Максимални дължини — пазят базата и публичните страници от
 // прекомерно голямо съдържание.
 const shortText = z.string().trim().min(1).max(300);
@@ -51,7 +56,7 @@ const pricesSchema = z.object({
   included: z.array(mediumText).max(40),
   notIncluded: z.array(mediumText).max(40),
   documents: z.array(mediumText).max(40),
-});
+}).strict();
 
 const reviewsSchema = z.array(
   z.object({
@@ -59,14 +64,14 @@ const reviewsSchema = z.array(
     date: shortText,
     text: longText,
     highlight: optionalShort,
-  }),
+  }).strict(),
 ).max(200);
 
 const gallerySchema = z.array(
   z.object({
     src: imageUrl,
     alt: shortText,
-  }),
+  }).strict(),
 ).max(200);
 
 const teamSchema = z.array(
@@ -75,7 +80,7 @@ const teamSchema = z.array(
     role: shortText,
     description: z.string().trim().max(4000).optional().or(z.literal("")),
     image: imageUrl,
-  }),
+  }).strict(),
 ).max(60);
 
 export const CONTENT_SCHEMAS = {

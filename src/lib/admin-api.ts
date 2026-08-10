@@ -4,6 +4,7 @@ export type NewsItem = {
   slug: string;
   excerpt: string | null;
   content: string;
+  images: string[];
   cover_image_url: string | null;
   published: boolean;
   published_at: string | null;
@@ -61,7 +62,7 @@ export function createNews(payload: {
   slug?: string;
   excerpt?: string;
   content: string;
-  coverImageUrl?: string;
+  images: string[];
   published: boolean;
 }) {
   return request<{ news: NewsItem }>("/api/admin/news", {
@@ -77,7 +78,7 @@ export function updateNews(
     slug: string;
     excerpt: string;
     content: string;
-    coverImageUrl: string;
+    images: string[];
     published: boolean;
   }>,
 ) {

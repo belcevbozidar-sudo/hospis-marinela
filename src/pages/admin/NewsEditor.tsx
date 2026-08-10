@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea.tsx";
 import { Switch } from "@/components/ui/switch.tsx";
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import { createNews, getNews, updateNews, type NewsItem } from "@/lib/admin-api.ts";
+import { ImageGalleryField } from "./_components/ImageGalleryField.tsx";
 
 export default function AdminNewsEditor() {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export default function AdminNewsEditor() {
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
-  const [coverImageUrl, setCoverImageUrl] = useState("");
+  const [images, setImages] = useState<string[]>([]);
   const [published, setPublished] = useState(false);
   const [slugTouched, setSlugTouched] = useState(false);
 
@@ -33,7 +34,9 @@ export default function AdminNewsEditor() {
         setSlug(news.slug);
         setExcerpt(news.excerpt ?? "");
         setContent(news.content);
-        setCoverImageUrl(news.cover_image_url ?? "");
+        setImages(
+          news.images?.length ? news.images : news.cover_image_url ? [news.cover_image_url] : [],
+        );
         setPublished(news.published);
         setSlugTouched(true);
       })
@@ -55,7 +58,7 @@ export default function AdminNewsEditor() {
           slug: slugTouched ? slug : undefined,
           excerpt,
           content,
-          coverImageUrl,
+          images,
           published: finalPublished,
         });
         toast.success("Новината е запазена");
@@ -65,7 +68,7 @@ export default function AdminNewsEditor() {
           slug: slugTouched ? slug : undefined,
           excerpt,
           content,
-          coverImageUrl,
+          images,
           published: finalPublished,
         });
         toast.success(finalPublished ? "Новината е публикувана" : "Новината е запазена като чернова");
@@ -100,6 +103,11 @@ export default function AdminNewsEditor() {
 
       <Card>
         <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Label>Снимки</Label>
+            <ImageGalleryField value={images} onChange={setImages} />
+          </div>
+
           <div className="flex flex-col gap-2">
             <Label htmlFor="title">Заглавие</Label>
             <Input
@@ -148,16 +156,6 @@ export default function AdminNewsEditor() {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Пълният текст на новината. Празен ред = нов абзац."
               rows={12}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="cover">Снимка (URL)</Label>
-            <Input
-              id="cover"
-              value={coverImageUrl}
-              onChange={(e) => setCoverImageUrl(e.target.value)}
-              placeholder="https://..."
             />
           </div>
 

@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { requireAuth } from "../../_lib/session.js";
 import { supabaseAdmin } from "../../_lib/supabaseAdmin.js";
 import { slugify } from "../../_lib/slug.js";
+import { validateImages } from "../../_lib/validateImages.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!(await requireAuth(req, res))) return;
@@ -33,8 +34,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (typeof body.title === "string") update.title = body.title.trim();
     if (typeof body.content === "string") update.content = body.content.trim();
     if (typeof body.excerpt === "string") update.excerpt = body.excerpt.trim() || null;
-    if (typeof body.coverImageUrl === "string") update.cover_image_url = body.coverImageUrl.trim() || null;
     if (typeof body.slug === "string" && body.slug.trim()) update.slug = slugify(body.slug);
+
+    if (body.images !== undefined) {
+      let images: string[];
+      try {
+        images = validateImages(body.images);
+      } catch {
+        res.status(400).json({ error: "invalid_images" });
+        return;
+      }
+      update.images = images;
+      update.cover_image_url = images[0] ?? null;
+    }
 
     if (typeof body.published === "boolean") {
       update.published = body.published;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Loader2 } from "lucide-react";
+import { ImageCarousel } from "@/components/image-carousel.tsx";
 
 type NewsArticle = {
   id: string;
@@ -8,7 +9,7 @@ type NewsArticle = {
   slug: string;
   excerpt: string | null;
   content: string;
-  cover_image_url: string | null;
+  images: string[];
   published_at: string | null;
 };
 
@@ -59,6 +60,8 @@ export default function NewsArticlePage() {
     );
   }
 
+  const [cover, ...rest] = article.images;
+
   return (
     <article className="max-w-2xl mx-auto px-4 py-16 sm:py-24">
       <Link
@@ -69,13 +72,9 @@ export default function NewsArticlePage() {
         Всички новини
       </Link>
 
-      {article.cover_image_url && (
+      {cover && (
         <div className="aspect-video w-full overflow-hidden rounded-xl bg-muted mb-8">
-          <img
-            src={article.cover_image_url}
-            alt={article.title}
-            className="w-full h-full object-cover"
-          />
+          <img src={cover} alt={article.title} className="w-full h-full object-cover" />
         </div>
       )}
 
@@ -93,6 +92,12 @@ export default function NewsArticlePage() {
           </p>
         ))}
       </div>
+
+      {rest.length > 0 && (
+        <div className="mt-10">
+          <ImageCarousel images={rest} alt={article.title} />
+        </div>
+      )}
     </article>
   );
 }

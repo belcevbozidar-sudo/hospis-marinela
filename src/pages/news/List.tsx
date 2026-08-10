@@ -7,7 +7,7 @@ type NewsSummary = {
   title: string;
   slug: string;
   excerpt: string | null;
-  cover_image_url: string | null;
+  images: string[];
   published_at: string | null;
 };
 
@@ -55,10 +55,10 @@ export default function NewsListPage() {
             to={`/news/${item.slug}`}
             className="group rounded-xl border bg-background/80 backdrop-blur overflow-hidden hover:shadow-md transition-shadow"
           >
-            {item.cover_image_url && (
+            {item.images[0] && (
               <div className="aspect-video w-full overflow-hidden bg-muted">
                 <img
-                  src={item.cover_image_url}
+                  src={item.images[0]}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"

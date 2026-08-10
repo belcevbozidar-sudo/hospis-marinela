@@ -19,6 +19,13 @@ export async function createSession(remember: boolean) {
   const ttl = remember ? REMEMBER_MS : DEFAULT_MS;
   const expiresAt = new Date(Date.now() + ttl);
 
+  // Изчистваме изтеклите сесии при всяко ново влизане, за да не
+  // остават стари записи в базата за неопределено време.
+  await supabaseAdmin.rpc("purge_expired_sessions").then(
+    () => undefined,
+    () => undefined, // хигиена, не бива да проваля входа
+  );
+
   const { error } = await supabaseAdmin.from("admin_sessions").insert({
     token,
     expires_at: expiresAt.toISOString(),

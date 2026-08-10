@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { buildMeta } from "@/lib/seo.ts";
 import { breadcrumbSchema } from "@/lib/structured-data.ts";
 import { JsonLd } from "@/components/json-ld.tsx";
+import { useSiteContent } from "@/lib/site-content.tsx";
+import { DEFAULT_MEDICAL_STAFF } from "@/lib/content-defaults.ts";
 
 export const meta = () => buildMeta("/team");
 
@@ -48,50 +50,6 @@ const VESELKA_MILESTONES = [
   },
 ];
 
-const MEDICAL_STAFF: TeamMember[] = [
-  {
-    name: "Анатоли Вълчев",
-    role: "Кинезитерапевт",
-    image: "/assets/file_vbVFnBr7PIDTnKFTQRTd6Yp9.webp",
-    description:
-      "С дългогодишен практически опит, Анатоли Вълчев е ключова част от екипа, който работи за възстановяване на движението и физическата активност на пациентите. Подхожда с постоянство, търпение и индивидуално внимание към всеки случай.",
-  },
-  {
-    name: "Петя Петрова Симеонова",
-    role: "Рехабилитатор",
-    image: "/assets/file_xug0FhPCwWmMr6erNc0wUNnJ.webp",
-    description:
-      "Завършва Софийски университет през 2025 г. със степен бакалавър по \u201EМедицинска рехабилитация и ерготерапия\u201C. В момента продължава обучението си в УНСС със специалност \u201EПублична администрация\u201C със специализация \u201EЗдравен мениджмънт\u201C. Комбинира актуални знания с практичен подход и индивидуално внимание към всеки пациент, насочено към реално подобряване на качеството на живот.",
-  },
-  {
-    name: "Валя Руйкова",
-    role: "Домакин",
-    image: "/assets/file_XXH8xOEmGYp0h65sU4QMIzkn.webp",
-    description:
-      "Професионален опит — от 2014 г. във фирмата. Грижи се за поддръжката и организацията на битовата среда в хосписа, осигурявайки уют и комфорт за пациентите.",
-  },
-  {
-    name: "Венета Благоева",
-    role: "Болногледач",
-    image: "/assets/file_hkvo14ILu5S39Rpxt2juwv1A.webp",
-    description:
-      "От 2014 г. в екипа на Хоспис Маринела. Грижи се с внимание и отдаденост за ежедневните нужди на пациентите, осигурявайки им комфорт и спокойствие.",
-  },
-  {
-    name: "Първолета Алексова",
-    role: "Болногледач",
-    image: "/assets/file_bTUEXttvAVV5hHN59Jym9hkY.webp",
-    description:
-      "От 2014 г. в екипа. Притежава 10 години професионален опит в Гърция. Носи ценен международен опит в грижата за пациенти, съчетан с внимание и съпричастност.",
-  },
-  {
-    name: "Таня Ангелова",
-    role: "Болногледач",
-    image: "/assets/file_QThTUkqSnT2rd9dQFyQlGvwl.webp",
-    description:
-      "Болногледач с дългогодишен опит в Италия. Носи ценен международен опит и подход в грижата за пациенти, съчетан с внимание и професионализъм.",
-  },
-];
 
 const SHAHOV_MILESTONES = [
   {
@@ -140,6 +98,8 @@ const KALINA_MILESTONES = [
 ];
 
 export default function TeamPage() {
+  const MEDICAL_STAFF = useSiteContent("team", DEFAULT_MEDICAL_STAFF);
+
   const navigate = useNavigate();
 
   const scrollToContact = () => {

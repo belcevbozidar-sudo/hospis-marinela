@@ -21,47 +21,22 @@ import { Link } from "react-router-dom";
 import { buildMeta } from "@/lib/seo.ts";
 import { breadcrumbSchema } from "@/lib/structured-data.ts";
 import { JsonLd } from "@/components/json-ld.tsx";
+import { useSiteContent } from "@/lib/site-content.tsx";
+import { DEFAULT_PRICES } from "@/lib/content-defaults.ts";
 
 export const meta = () => buildMeta("/prices");
 
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
-const PRICE_FACTORS = [
-  "Тежест на заболяването",
-  "Степен на зависимост от грижи",
-  "Необходимост от допълнителни медицински процедури",
-  "Продължителност на престоя",
-];
-
-const INCLUDED_ITEMS = [
-  "24-часови грижи и постоянно наблюдение от санитар и болногледач",
-  "Ежедневни лекарски визитации",
-  "Сестрински грижи",
-  "Три хранения на ден (при нужда – диетична храна)",
-  "Помощ при хранене",
-  "Съдействие при лична хигиена, придвижване",
-  "Наблюдение и подкрепа при усложнения",
-  "Почистване, поддържане и дезинфекция на стаята",
-  "Съдействие и комуникация с близките",
-];
-
-const NOT_INCLUDED_ITEMS = [
-  "Лекарства и медицински консумативи, които по правило се покриват от Националната здравноосигурителна каса (НЗОК) или се покриват от пациента или неговите близки чрез лични средства, пенсия или допълнителна здравна застраховка.",
-  "Консултации със външни специалисти",
-  "Индивидуални медицински изделия, ако се наложат",
-];
-
-const DOCUMENTS = [
-  "Епикриза от последното лечебно заведение",
-  "Налични изследвания",
-  "Изписани рецепти и медикаменти",
-  "Предишни епикризи (ако има)",
-  "ТЕЛК решение (ако е налично)",
-  "Копие от документ за самоличност",
-];
 
 export default function PricesPage() {
+  const prices = useSiteContent("prices", DEFAULT_PRICES);
+  const PRICE_FACTORS = prices.factors;
+  const INCLUDED_ITEMS = prices.included;
+  const NOT_INCLUDED_ITEMS = prices.notIncluded;
+  const DOCUMENTS = prices.documents;
+
 
   return (
     <div>
@@ -149,25 +124,25 @@ export default function PricesPage() {
             </h2>
 
             <p className="text-foreground/80 leading-relaxed text-base sm:text-lg mb-6">
-              В Хоспис Маринела предлагаме дневен престой на цена между
+              {prices.intro}
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
               <span className="text-3xl sm:text-4xl font-bold font-serif text-accent">
-                50 {"€"}
+                {prices.priceFrom} {prices.currency}
               </span>
               <span className="text-xl text-foreground/60">–</span>
               <span className="text-3xl sm:text-4xl font-bold font-serif text-accent">
-                70 {"€"}
+                {prices.priceTo} {prices.currency}
               </span>
             </div>
 
-            <p className="text-foreground/60 text-sm mb-4">
-              (97,40 – 136,36 лв.)
-            </p>
+            {prices.secondaryNote && (
+              <p className="text-foreground/60 text-sm mb-4">{prices.secondaryNote}</p>
+            )}
 
             <p className="text-foreground/70 leading-relaxed text-sm sm:text-base max-w-2xl mx-auto">
-              Таксата се определя на база тежестта на заболяването и необходимите грижи.
+              {prices.note}
             </p>
 
             <div className="w-16 h-0.5 bg-accent mx-auto my-6" />

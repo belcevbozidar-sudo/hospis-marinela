@@ -24,6 +24,10 @@ export default [
     route("news", "pages/admin/NewsList.tsx"),
     route("news/new", "pages/admin/NewsEditor.tsx", { id: "admin-news-new" }),
     route("news/:id", "pages/admin/NewsEditor.tsx", { id: "admin-news-edit" }),
+    route("reviews", "pages/admin/ReviewsEditor.tsx"),
+    route("gallery", "pages/admin/GalleryEditor.tsx"),
+    route("team", "pages/admin/TeamEditor.tsx"),
+    route("prices", "pages/admin/PricesEditor.tsx"),
   ]),
   route("*", "pages/NotFound.tsx"),
 ] satisfies RouteConfig;

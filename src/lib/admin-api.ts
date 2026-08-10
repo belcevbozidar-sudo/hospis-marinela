@@ -90,3 +90,19 @@ export function updateNews(
 export function deleteNews(id: string) {
   return request<{ ok: true }>(`/api/admin/news/${id}`, { method: "DELETE" });
 }
+
+/** Редактируеми секции на сайта (отзиви, галерия, цени, екип). */
+export type ContentKey = "prices" | "reviews" | "gallery" | "team";
+
+export function getContent<T>(key: ContentKey) {
+  return request<{ value: T | null; updatedAt: string | null }>(
+    `/api/admin/content/${key}`,
+  );
+}
+
+export function saveContent<T>(key: ContentKey, value: T) {
+  return request<{ ok: true }>(`/api/admin/content/${key}`, {
+    method: "PUT",
+    body: JSON.stringify({ value }),
+  });
+}

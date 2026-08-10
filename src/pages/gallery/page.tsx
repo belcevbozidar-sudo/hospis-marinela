@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { buildMeta } from "@/lib/seo.ts";
 import { breadcrumbSchema } from "@/lib/structured-data.ts";
 import { JsonLd } from "@/components/json-ld.tsx";
+import { useSiteContent } from "@/lib/site-content.tsx";
+import { DEFAULT_GALLERY_IMAGES } from "@/lib/content-defaults.ts";
 
 export const meta = () => buildMeta("/gallery");
 
@@ -14,34 +16,10 @@ type GalleryImage = {
   alt: string;
 };
 
-const GALLERY_IMAGES: GalleryImage[] = [
-  {
-    src: "/assets/file_rPM4Y86HoG1corfQJr2evhfn.webp",
-    alt: "Екипът на Хоспис Маринела — празнично събитие",
-  },
-  {
-    src: "/assets/file_VZiUDliUfCEnhBmusAwuhmBF.webp",
-    alt: "Екипът на Хоспис Маринела — в стаята на пациент",
-  },
-  {
-    src: "/assets/file_DaF4bPdATFy3jB23tg64vl80.webp",
-    alt: "Членове на екипа на Хоспис Маринела",
-  },
-  {
-    src: "/assets/file_m6Hmpzf23wEYuprXEEkGbBWQ.webp",
-    alt: "Екипът на Хоспис Маринела заедно",
-  },
-  {
-    src: "/assets/file_Hz5ltdZh64q1oZhjC87pMV3Y.webp",
-    alt: "Медицински екип на Хоспис Маринела",
-  },
-  {
-    src: "/assets/file_yPnN0VVow31Vx5wiiU60qotw.webp",
-    alt: "Хоспис Маринела — грижа и отдаденост",
-  },
-];
 
 export default function GalleryPage() {
+  const GALLERY_IMAGES = useSiteContent("gallery", DEFAULT_GALLERY_IMAGES);
+
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const openLightbox = (index: number) => setSelectedIndex(index);

@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Newspaper, LayoutDashboard, LogOut, Loader2 } from "lucide-react";
+import {
+  Newspaper,
+  LayoutDashboard,
+  LogOut,
+  Loader2,
+  MessageSquareQuote,
+  Images,
+  Users,
+  Euro,
+} from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import { checkSession, logout } from "@/lib/admin-api.ts";
 import AdminLogin from "@/pages/admin/Login.tsx";
@@ -9,6 +18,10 @@ import { cn } from "@/lib/utils.ts";
 const NAV_ITEMS = [
   { to: "/admin", label: "Табло", icon: LayoutDashboard, end: true },
   { to: "/admin/news", label: "Новини", icon: Newspaper, end: false },
+  { to: "/admin/reviews", label: "Отзиви", icon: MessageSquareQuote, end: false },
+  { to: "/admin/gallery", label: "Галерия", icon: Images, end: false },
+  { to: "/admin/team", label: "Екип", icon: Users, end: false },
+  { to: "/admin/prices", label: "Цени", icon: Euro, end: false },
 ];
 
 export default function AdminApp() {

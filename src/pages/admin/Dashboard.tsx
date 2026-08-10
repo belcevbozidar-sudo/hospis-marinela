@@ -1,6 +1,44 @@
 import { Link } from "react-router-dom";
-import { Newspaper, Wrench } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.tsx";
+import { Newspaper, MessageSquareQuote, Images, Users, Euro, Info } from "lucide-react";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card.tsx";
+
+const SECTIONS = [
+  {
+    to: "/admin/news",
+    icon: Newspaper,
+    title: "Новини",
+    description: "Създавай, редактирай и публикувай новини на сайта.",
+  },
+  {
+    to: "/admin/reviews",
+    icon: MessageSquareQuote,
+    title: "Отзиви",
+    description: "Отзивите от близки на пациенти на страница „Отзиви“.",
+  },
+  {
+    to: "/admin/gallery",
+    icon: Images,
+    title: "Галерия",
+    description: "Снимките, които се показват в галерията.",
+  },
+  {
+    to: "/admin/team",
+    icon: Users,
+    title: "Екип",
+    description: "Членовете на медицинския екип и техните описания.",
+  },
+  {
+    to: "/admin/prices",
+    icon: Euro,
+    title: "Цени",
+    description: "Ценовият диапазон и какво е включено в цената.",
+  },
+];
 
 export default function AdminDashboard() {
   return (
@@ -13,26 +51,33 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Link to="/admin/news">
-          <Card className="hover:border-primary/50 transition-colors h-full">
-            <CardHeader>
-              <Newspaper className="size-6 text-primary mb-1" />
-              <CardTitle>Новини</CardTitle>
-              <CardDescription>Създавай, редактирай и публикувай новини на сайта.</CardDescription>
-            </CardHeader>
-          </Card>
-        </Link>
+        {SECTIONS.map((section) => (
+          <Link key={section.to} to={section.to}>
+            <Card className="hover:border-primary/50 transition-colors h-full">
+              <CardHeader>
+                <section.icon className="size-6 text-primary mb-1" />
+                <CardTitle>{section.title}</CardTitle>
+                <CardDescription>{section.description}</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        ))}
+      </div>
 
-        <Card className="opacity-60">
-          <CardHeader>
-            <Wrench className="size-6 text-muted-foreground mb-1" />
-            <CardTitle>Още секции — скоро</CardTitle>
-            <CardDescription>
-              Тук ще се добавят инструменти за редакция на другите секции на сайта (услуги,
-              екип, цени, снимки и др.).
-            </CardDescription>
-          </CardHeader>
-        </Card>
+      <div className="flex gap-3 rounded-lg border bg-muted/40 p-4 max-w-3xl">
+        <Info className="size-5 text-muted-foreground shrink-0 mt-0.5" />
+        <div className="text-sm text-muted-foreground space-y-2">
+          <p>
+            Промените се виждат на сайта веднага след натискане на „Запази“ — не е
+            нужно ново публикуване.
+          </p>
+          <p>
+            Телефоните, адресът и текстовете на останалите страници са част от кода и
+            се променят от разработчик. Причината е, че те се използват и в данните за
+            търсачките (Google), които се изграждат при публикуване на сайта — ако се
+            променяха само тук, Google щеше да продължи да показва старите.
+          </p>
+        </div>
       </div>
     </div>
   );

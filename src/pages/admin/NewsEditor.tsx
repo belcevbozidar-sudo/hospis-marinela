@@ -34,9 +34,7 @@ export default function AdminNewsEditor() {
         setSlug(news.slug);
         setExcerpt(news.excerpt ?? "");
         setContent(news.content);
-        setImages(
-          news.images?.length ? news.images : news.cover_image_url ? [news.cover_image_url] : [],
-        );
+        setImages(news.images ?? []);
         setPublished(news.published);
         setSlugTouched(true);
       })

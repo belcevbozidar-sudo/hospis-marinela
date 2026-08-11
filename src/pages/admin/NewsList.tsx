@@ -73,7 +73,7 @@ export default function AdminNewsList() {
       <div className="flex flex-col gap-2">
         {news?.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             className="flex items-center justify-between gap-4 rounded-lg border bg-background p-4"
           >
             <div className="min-w-0">
@@ -87,13 +87,13 @@ export default function AdminNewsList() {
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Button asChild variant="outline" size="icon-sm">
-                <Link to={`/admin/news/${item.id}`}>
+                <Link to={`/admin/news/${item._id}`}>
                   <Pencil className="size-4" />
                 </Link>
               </Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="outline" size="icon-sm" disabled={deletingId === item.id}>
+                  <Button variant="outline" size="icon-sm" disabled={deletingId === item._id}>
                     <Trash2 className="size-4" />
                   </Button>
                 </AlertDialogTrigger>
@@ -107,7 +107,7 @@ export default function AdminNewsList() {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Отказ</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDelete(item.id)}>
+                    <AlertDialogAction onClick={() => handleDelete(item._id)}>
                       Изтрий
                     </AlertDialogAction>
                   </AlertDialogFooter>

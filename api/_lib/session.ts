@@ -1,11 +1,9 @@
 import crypto from "node:crypto";
 import { parseCookie, stringifySetCookie } from "cookie";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { supabaseAdmin } from "./supabaseAdmin.js";
+import { convex, api, SERVER_SECRET } from "./convexServer.js";
 
 export const SESSION_COOKIE = "hm_admin_session";
-const REMEMBER_MS = 14 * 24 * 60 * 60 * 1000; // 14 дни
-const DEFAULT_MS = 8 * 60 * 60 * 1000; // 8 часа, ако не е чекнато "Запомни ме"
 
 export function getSessionToken(req: VercelRequest): string | null {
   const header = req.headers.cookie;
@@ -16,24 +14,12 @@ export function getSessionToken(req: VercelRequest): string | null {
 
 export async function createSession(remember: boolean) {
   const token = crypto.randomBytes(32).toString("hex");
-  const ttl = remember ? REMEMBER_MS : DEFAULT_MS;
-  const expiresAt = new Date(Date.now() + ttl);
-
-  // Изчистваме изтеклите сесии при всяко ново влизане, за да не
-  // остават стари записи в базата за неопределено време.
-  await supabaseAdmin.rpc("purge_expired_sessions").then(
-    () => undefined,
-    () => undefined, // хигиена, не бива да проваля входа
-  );
-
-  const { error } = await supabaseAdmin.from("admin_sessions").insert({
+  const { expiresAt } = await convex.mutation(api.adminAuth.createSession, {
+    secret: SERVER_SECRET,
     token,
-    expires_at: expiresAt.toISOString(),
     remember,
   });
-  if (error) throw error;
-
-  return { token, expiresAt, remember };
+  return { token, expiresAt: new Date(expiresAt), remember };
 }
 
 export function setSessionCookie(
@@ -70,31 +56,16 @@ export function clearSessionCookie(res: VercelResponse) {
   );
 }
 
-export async function verifySession(
-  req: VercelRequest,
-): Promise<boolean> {
+export async function verifySession(req: VercelRequest): Promise<boolean> {
   const token = getSessionToken(req);
   if (!token) return false;
-
-  const { data, error } = await supabaseAdmin
-    .from("admin_sessions")
-    .select("expires_at")
-    .eq("token", token)
-    .maybeSingle();
-
-  if (error || !data) return false;
-  if (new Date(data.expires_at).getTime() < Date.now()) {
-    // Изтекла сесия — изчистваме я
-    await supabaseAdmin.from("admin_sessions").delete().eq("token", token);
-    return false;
-  }
-  return true;
+  return await convex.query(api.adminAuth.verifySession, { secret: SERVER_SECRET, token });
 }
 
 export async function destroySession(req: VercelRequest) {
   const token = getSessionToken(req);
   if (!token) return;
-  await supabaseAdmin.from("admin_sessions").delete().eq("token", token);
+  await convex.mutation(api.adminAuth.destroySession, { secret: SERVER_SECRET, token });
 }
 
 /** Изисква валидна сесия; при липса пише 401 и връща false. */

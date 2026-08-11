@@ -1,92 +1,67 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { requireAuth } from "../../_lib/session.js";
-import { supabaseAdmin } from "../../_lib/supabaseAdmin.js";
+import { convex, api, SERVER_SECRET } from "../../_lib/convexServer.js";
 import { slugify } from "../../_lib/slug.js";
 import { validateImages } from "../../_lib/validateImages.js";
+import type { Id } from "../../../convex/_generated/dataModel.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!(await requireAuth(req, res))) return;
 
-  const id = String(req.query.id);
+  const id = req.query.id as Id<"news">;
 
   if (req.method === "GET") {
-    const { data, error } = await supabaseAdmin
-      .from("news")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
-    if (error) {
-      res.status(500).json({ error: error.message });
-      return;
-    }
-    if (!data) {
+    const row = await convex.query(api.news.adminGet, { secret: SERVER_SECRET, id });
+    if (!row) {
       res.status(404).json({ error: "not_found" });
       return;
     }
-    res.status(200).json({ news: data });
+    res.status(200).json({ news: row });
     return;
   }
 
   if (req.method === "PUT") {
     const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body ?? {};
-    const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    const patch: {
+      title?: string;
+      slug?: string;
+      excerpt?: string;
+      content?: string;
+      images?: string[];
+      published?: boolean;
+    } = {};
 
-    if (typeof body.title === "string") update.title = body.title.trim();
-    if (typeof body.content === "string") update.content = body.content.trim();
-    if (typeof body.excerpt === "string") update.excerpt = body.excerpt.trim() || null;
-    if (typeof body.slug === "string" && body.slug.trim()) update.slug = slugify(body.slug);
+    if (typeof body.title === "string") patch.title = body.title.trim();
+    if (typeof body.content === "string") patch.content = body.content.trim();
+    if (typeof body.excerpt === "string") patch.excerpt = body.excerpt.trim();
+    if (typeof body.slug === "string" && body.slug.trim()) patch.slug = slugify(body.slug);
+    if (typeof body.published === "boolean") patch.published = body.published;
 
     if (body.images !== undefined) {
-      let images: string[];
       try {
-        images = validateImages(body.images);
+        patch.images = validateImages(body.images);
       } catch {
         res.status(400).json({ error: "invalid_images" });
         return;
       }
-      update.images = images;
-      update.cover_image_url = images[0] ?? null;
     }
 
-    if (typeof body.published === "boolean") {
-      update.published = body.published;
-      if (body.published) {
-        const { data: current } = await supabaseAdmin
-          .from("news")
-          .select("published_at")
-          .eq("id", id)
-          .maybeSingle();
-        if (!current?.published_at) {
-          update.published_at = new Date().toISOString();
-        }
-      }
-    }
+    const updated = await convex.mutation(api.news.adminUpdate, {
+      secret: SERVER_SECRET,
+      id,
+      ...patch,
+    });
 
-    const { data, error } = await supabaseAdmin
-      .from("news")
-      .update(update)
-      .eq("id", id)
-      .select()
-      .maybeSingle();
-
-    if (error) {
-      res.status(500).json({ error: error.message });
-      return;
-    }
-    if (!data) {
+    if (!updated) {
       res.status(404).json({ error: "not_found" });
       return;
     }
-    res.status(200).json({ news: data });
+    res.status(200).json({ news: updated });
     return;
   }
 
   if (req.method === "DELETE") {
-    const { error } = await supabaseAdmin.from("news").delete().eq("id", id);
-    if (error) {
-      res.status(500).json({ error: error.message });
-      return;
-    }
+    await convex.mutation(api.news.adminDelete, { secret: SERVER_SECRET, id });
     res.status(200).json({ ok: true });
     return;
   }

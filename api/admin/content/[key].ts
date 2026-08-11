@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { ZodError } from "zod";
 import { requireAuth } from "../../_lib/session.js";
-import { supabaseAdmin } from "../../_lib/supabaseAdmin.js";
+import { convex, api, SERVER_SECRET } from "../../_lib/convexServer.js";
 import { isContentKey, validateContent } from "../../_lib/contentSchemas.js";
 
 const MAX_BODY_BYTES = 512 * 1024; // 512 KB — далеч над реалната нужда
@@ -16,17 +16,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === "GET") {
-    const { data, error } = await supabaseAdmin
-      .from("site_content")
-      .select("value, updated_at")
-      .eq("key", key)
-      .maybeSingle();
-
-    if (error) {
-      res.status(500).json({ error: error.message });
-      return;
-    }
-    res.status(200).json({ value: data?.value ?? null, updatedAt: data?.updated_at ?? null });
+    const result = await convex.query(api.content.adminGet, { secret: SERVER_SECRET, key });
+    res.status(200).json(result);
     return;
   }
 
@@ -56,14 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw err;
     }
 
-    const { error } = await supabaseAdmin
-      .from("site_content")
-      .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
-
-    if (error) {
-      res.status(500).json({ error: error.message });
-      return;
-    }
+    await convex.mutation(api.content.adminSet, { secret: SERVER_SECRET, key, value });
     res.status(200).json({ ok: true });
     return;
   }

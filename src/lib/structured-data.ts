@@ -112,6 +112,67 @@ export function faqSchema(items: Array<{ question: string; answer: string }>) {
   };
 }
 
+/** `Service` schema for a single named service, tied to the organization as provider. */
+export function serviceSchema(items: Array<{ name: string; description: string }>) {
+  return items.map((item) => ({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: item.name,
+    name: item.name,
+    description: item.description,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    areaServed: {
+      "@type": "City",
+      name: "София",
+    },
+  }));
+}
+
+/** `Offer` schema for the daily-stay price range shown on /prices. */
+export function offerSchema(params: {
+  priceFrom: string;
+  priceTo: string;
+  currency: string;
+  description: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Offer",
+    name: "Денонощни грижи — дневен престой",
+    description: params.description,
+    priceCurrency: params.currency === "€" ? "EUR" : params.currency,
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      minPrice: params.priceFrom,
+      maxPrice: params.priceTo,
+      priceCurrency: params.currency === "€" ? "EUR" : params.currency,
+    },
+    availability: "https://schema.org/InStock",
+    seller: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+/** `NewsArticle` schema for a single published news article. */
+export function newsArticleSchema(params: {
+  title: string;
+  description: string;
+  slug: string;
+  image?: string;
+  publishedAt: string | null;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: params.title,
+    description: params.description,
+    url: `${SITE_URL}/news/${params.slug}`,
+    ...(params.publishedAt ? { datePublished: params.publishedAt } : {}),
+    ...(params.image ? { image: [params.image] } : {}),
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    mainEntityOfPage: `${SITE_URL}/news/${params.slug}`,
+  };
+}
+
 export function reviewsSchema(
   reviews: Array<{ author: string; text: string }>,
 ) {

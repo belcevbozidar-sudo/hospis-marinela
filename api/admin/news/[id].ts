@@ -3,6 +3,7 @@ import { requireAuth } from "../../_lib/session.js";
 import { convex, api, SERVER_SECRET } from "../../_lib/convexServer.js";
 import { slugify } from "../../_lib/slug.js";
 import { validateImages } from "../../_lib/validateImages.js";
+import { triggerRedeploy } from "../../_lib/deployHook.js";
 import type { Id } from "../../../convex/_generated/dataModel.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -57,12 +58,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
     res.status(200).json({ news: updated });
+
+    // Covers both newly-published articles and edits to already-published
+    // ones (title/content/images changes still need a fresh static snapshot).
+    if (updated.published) void triggerRedeploy("news updated");
     return;
   }
 
   if (req.method === "DELETE") {
+    const existing = await convex.query(api.news.adminGet, { secret: SERVER_SECRET, id });
     await convex.mutation(api.news.adminDelete, { secret: SERVER_SECRET, id });
     res.status(200).json({ ok: true });
+
+    if (existing?.published) void triggerRedeploy("news deleted");
     return;
   }
 

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CalendarDays, Loader2 } from "lucide-react";
+import { buildMeta } from "@/lib/seo.ts";
+import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+import { NEWS_SNAPSHOT } from "@/lib/news-snapshot.generated.ts";
+
+export const meta = () => buildMeta("/news");
 
 type NewsSummary = {
   id: string;
@@ -10,6 +16,18 @@ type NewsSummary = {
   images: string[];
   published_at: string | null;
 };
+
+// The build-time snapshot uses numeric `publishedAt`; the live /api/news
+// response uses ISO-string `published_at`. Normalized once here so both
+// sources render through the same list markup below.
+const INITIAL_NEWS: NewsSummary[] = NEWS_SNAPSHOT.map((item) => ({
+  id: item.id,
+  title: item.title,
+  slug: item.slug,
+  excerpt: item.excerpt,
+  images: item.images,
+  published_at: item.publishedAt ? new Date(item.publishedAt).toISOString() : null,
+}));
 
 function formatDate(iso: string | null) {
   if (!iso) return "";
@@ -21,18 +39,22 @@ function formatDate(iso: string | null) {
 }
 
 export default function NewsListPage() {
-  const [news, setNews] = useState<NewsSummary[] | null>(null);
+  // Seeded from the build-time snapshot (even when empty) so crawlers see
+  // real content — or a real "no news yet" message — instead of a loading
+  // spinner. The fetch below refreshes it with anything published since
+  // the last deploy.
+  const [news, setNews] = useState<NewsSummary[] | null>(INITIAL_NEWS);
 
   useEffect(() => {
-    document.title = 'Новини | Хоспис "Маринела"';
     fetch("/api/news")
       .then((r) => r.json())
       .then((d) => setNews(d.news ?? []))
-      .catch(() => setNews([]));
+      .catch(() => setNews((current) => current ?? []));
   }, []);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 sm:py-24">
+      <JsonLd data={breadcrumbSchema("Новини", "/news")} />
       <h1 className="text-3xl sm:text-4xl font-bold mb-2">Новини</h1>
       <p className="text-muted-foreground mb-10">
         Актуална информация и новини от Хоспис „Маринела“.

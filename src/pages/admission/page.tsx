@@ -20,8 +20,37 @@ import { Link } from "react-router-dom";
 import { buildMeta } from "@/lib/seo.ts";
 import { breadcrumbSchema } from "@/lib/structured-data.ts";
 import { JsonLd } from "@/components/json-ld.tsx";
+import { FaqSection } from "@/components/faq-section.tsx";
+import { DEFAULT_DOCUMENTS } from "@/lib/content-defaults.ts";
 
 export const meta = () => buildMeta("/admission");
+
+const ADMISSION_FAQ = [
+  {
+    question: "Какви документи са необходими за настаняване?",
+    answer: `За прием обичайно се подготвят: ${DEFAULT_DOCUMENTS.join(", ")}. За уточнение на пълния списък за конкретния случай се свържете с управителките на телефоните по-долу.`,
+  },
+  {
+    question: "Колко бързо може да се уреди прием?",
+    answer:
+      "Прием се съгласува лично с медицинския или финансовия управител по телефона. При спешен случай настаняването може да се уреди в рамките на кратък срок след предварителна медицинска преценка.",
+  },
+  {
+    question: "Кога са дните и часовете за посещение?",
+    answer:
+      "Посещенията са във вторник, четвъртък, събота и неделя от 16:00 до 19:30 ч. Ползването на телефон за връзка с близки е неограничено през цялото време.",
+  },
+  {
+    question: "Може ли пациентът да носи свои лекарства и лична документация?",
+    answer:
+      "Да, желателно е лекарствата и здравната документация на пациента да бъдат предадени на старшата сестра при настаняване — тя носи отговорност за съхранението им.",
+  },
+  {
+    question: "Какво не трябва да се носи при постъпване?",
+    answer:
+      "При постъпване не се препоръчва да се носят ценни книжа, документи, големи суми пари и бижута — хосписът не носи отговорност за изгубени или откраднати ценни вещи.",
+  },
+];
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
@@ -318,6 +347,8 @@ export default function AdmissionPage() {
           </motion.div>
         </div>
       </section>
+
+      <FaqSection items={ADMISSION_FAQ} />
 
       {/* Trust banner */}
       <section className="py-8 sm:py-12">

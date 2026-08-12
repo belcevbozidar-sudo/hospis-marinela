@@ -4,7 +4,11 @@
   "outputDirectory": "build/client",
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/admin(/.*)?",
+      "destination": "/__spa-fallback.html"
+    },
+    {
+      "source": "/news/([^/]+)",
       "destination": "/__spa-fallback.html"
     }
   ],

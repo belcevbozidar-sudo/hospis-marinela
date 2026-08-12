@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/prebuild.mjs",
     "dev": "react-router dev",
     "preview": "vite preview",
-    "build": "tsc -b && react-router build",
+    "build": "node scripts/prebuild.mjs && tsc -b && react-router build",
     "lint": "eslint .",
     "prettier-fix": "prettier --write .",
     "prettier-check": "prettier --check ."

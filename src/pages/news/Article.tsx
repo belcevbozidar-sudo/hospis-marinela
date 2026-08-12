@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Loader2 } from "lucide-react";
 import { ImageCarousel } from "@/components/image-carousel.tsx";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo.ts";
+import { breadcrumbSchema, newsArticleSchema } from "@/lib/structured-data.ts";
+import { JsonLd } from "@/components/json-ld.tsx";
+import { NEWS_SNAPSHOT } from "@/lib/news-snapshot.generated.ts";
 
 type NewsArticle = {
   id: string;
@@ -12,6 +16,47 @@ type NewsArticle = {
   images: string[];
   published_at: string | null;
 };
+
+function fromSnapshot(slug: string | undefined): NewsArticle | null {
+  const item = NEWS_SNAPSHOT.find((n) => n.slug === slug);
+  if (!item) return null;
+  return {
+    id: item.id,
+    title: item.title,
+    slug: item.slug,
+    excerpt: item.excerpt,
+    content: item.content,
+    images: item.images,
+    published_at: item.publishedAt ? new Date(item.publishedAt).toISOString() : null,
+  };
+}
+
+// Dynamic per-article meta, built directly from the build-time snapshot
+// (params.slug is all we get here — no loader in this SPA-mode setup).
+// Articles published after the last deploy fall back to a generic title;
+// document.title still gets set correctly once the client fetch resolves.
+export function meta({ params }: { params: { slug?: string } }) {
+  const article = fromSnapshot(params.slug);
+  const title = article ? `${article.title} | ${SITE_NAME}` : `Новина | ${SITE_NAME}`;
+  const description = article?.excerpt || "Новини от Хоспис \"Маринела\".";
+  const url = `${SITE_URL}/news/${params.slug ?? ""}`;
+  const image = article?.images[0] || DEFAULT_OG_IMAGE;
+
+  return [
+    { title },
+    { name: "description", content: description },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:type", content: "article" },
+    { property: "og:url", content: url },
+    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:image", content: image },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { tagName: "link", rel: "canonical", href: url },
+  ];
+}
 
 function formatDate(iso: string | null) {
   if (!iso) return "";
@@ -24,21 +69,26 @@ function formatDate(iso: string | null) {
 
 export default function NewsArticlePage() {
   const { slug } = useParams();
-  const [article, setArticle] = useState<NewsArticle | null | "not-found">(null);
+  const snapshotMatch = fromSnapshot(slug);
+  const [article, setArticle] = useState<NewsArticle | null | "not-found">(
+    snapshotMatch,
+  );
 
   useEffect(() => {
     if (!slug) return;
     fetch(`/api/news/${slug}`)
       .then(async (r) => {
         if (r.status === 404) {
-          setArticle("not-found");
+          setArticle((current) => (current ? current : "not-found"));
           return;
         }
         const d = await r.json();
         setArticle(d.news);
         document.title = `${d.news.title} | Хоспис "Маринела"`;
       })
-      .catch(() => setArticle("not-found"));
+      .catch(() => {
+        setArticle((current) => (current ? current : "not-found"));
+      });
   }, [slug]);
 
   if (article === null) {
@@ -64,6 +114,18 @@ export default function NewsArticlePage() {
 
   return (
     <article className="max-w-2xl mx-auto px-4 py-16 sm:py-24">
+      <JsonLd
+        data={[
+          breadcrumbSchema(article.title, `/news/${article.slug}`),
+          newsArticleSchema({
+            title: article.title,
+            description: article.excerpt || article.title,
+            slug: article.slug,
+            image: cover,
+            publishedAt: article.published_at,
+          }),
+        ]}
+      />
       <Link
         to="/news"
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-8"

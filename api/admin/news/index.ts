@@ -3,6 +3,7 @@ import { requireAuth } from "../../_lib/session.js";
 import { convex, api, SERVER_SECRET } from "../../_lib/convexServer.js";
 import { slugify } from "../../_lib/slug.js";
 import { validateImages } from "../../_lib/validateImages.js";
+import { triggerRedeploy } from "../../_lib/deployHook.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!(await requireAuth(req, res))) return;
@@ -47,6 +48,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     res.status(201).json({ news: created });
+
+    if (published) void triggerRedeploy("news created & published");
     return;
   }
 

@@ -18,6 +18,13 @@ export default [
     route("gallery", "pages/gallery/page.tsx"),
     route("news", "pages/news/List.tsx"),
     route("news/:slug", "pages/news/Article.tsx"),
+    route("grizhi-sled-insult", "pages/conditions/insult/page.tsx"),
+    route("palliativni-grizhi", "pages/conditions/palliative/page.tsx"),
+    route("demenciya-alzhaimer", "pages/conditions/dementia/page.tsx"),
+    route(
+      "sledoperativno-vazstanovyavane",
+      "pages/conditions/postop/page.tsx",
+    ),
   ]),
   route("admin", "pages/admin/AdminApp.tsx", [
     index("pages/admin/Dashboard.tsx"),

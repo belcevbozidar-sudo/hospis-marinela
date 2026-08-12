@@ -19,8 +19,9 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
 import { buildMeta } from "@/lib/seo.ts";
-import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { breadcrumbSchema, offerSchema } from "@/lib/structured-data.ts";
 import { JsonLd } from "@/components/json-ld.tsx";
+import { FaqSection } from "@/components/faq-section.tsx";
 import { useSiteContent } from "@/lib/site-content.tsx";
 import { DEFAULT_PRICES } from "@/lib/content-defaults.ts";
 
@@ -29,6 +30,28 @@ export const meta = () => buildMeta("/prices");
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
+const PRICES_FAQ = [
+  {
+    question: "Какво точно е включено в дневната цена?",
+    answer:
+      "В цената влизат 24-часови грижи и наблюдение от санитар и болногледач, ежедневни лекарски визитации, сестрински грижи, три хранения на ден (при нужда — диетична храна), помощ при хранене и лична хигиена, почистване и дезинфекция на стаята.",
+  },
+  {
+    question: "Има ли скрити такси или доплащания?",
+    answer:
+      "Не работим със скрити такси. Извън дневната такса се заплащат отделно лекарства и медицински консумативи, които по правило не се покриват от НЗОК, както и консултации с външни специалисти, ако се наложат.",
+  },
+  {
+    question: "Приемате ли пациенти с финансиране от НЗОК?",
+    answer:
+      "Лекарствата и консумативите, покривани по НЗОК, се уреждат по общия ред. За конкретния случай на пациента препоръчваме да уточните подробностите директно с управителките при първоначалния разговор.",
+  },
+  {
+    question: "От какво зависи крайната цена?",
+    answer:
+      "Таксата се определя индивидуално на база тежестта на заболяването, степента на зависимост от грижи, необходимостта от допълнителни медицински процедури и продължителността на престоя.",
+  },
+];
 
 export default function PricesPage() {
   const prices = useSiteContent("prices", DEFAULT_PRICES);
@@ -40,7 +63,17 @@ export default function PricesPage() {
 
   return (
     <div>
-      <JsonLd data={breadcrumbSchema("Цени", "/prices")} />
+      <JsonLd
+        data={[
+          breadcrumbSchema("Цени", "/prices"),
+          offerSchema({
+            priceFrom: prices.priceFrom,
+            priceTo: prices.priceTo,
+            currency: prices.currency,
+            description: `${prices.intro} ${prices.priceFrom} - ${prices.priceTo} ${prices.currency} на ден.`,
+          }),
+        ]}
+      />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -737,6 +770,8 @@ export default function PricesPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection items={PRICES_FAQ} />
     </div>
   );
 }

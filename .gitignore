@@ -15,6 +15,9 @@ node_modules
 .eslintcache
 tsconfig.tsbuildinfo
 
+# Regenerated on every build by scripts/prebuild.mjs (see package.json → "build")
+/src/lib/news-snapshot.generated.ts
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

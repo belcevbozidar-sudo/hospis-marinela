@@ -24,10 +24,34 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { buildMeta } from "@/lib/seo.ts";
-import { breadcrumbSchema } from "@/lib/structured-data.ts";
+import { breadcrumbSchema, serviceSchema } from "@/lib/structured-data.ts";
 import { JsonLd } from "@/components/json-ld.tsx";
+import { FaqSection } from "@/components/faq-section.tsx";
 
 export const meta = () => buildMeta("/services");
+
+const SERVICES_FAQ = [
+  {
+    question: "Приемате ли пациенти с деменция или Алцхаймер?",
+    answer:
+      "Да, хосписът приема пациенти с деменция и Алцхаймер, като за тях се осигурява сигурна среда, денонощно наблюдение и индивидуално внимание от болногледачи и медицински персонал.",
+  },
+  {
+    question: "Правите ли рехабилитация след инсулт?",
+    answer:
+      "Да. Поддържащата рехабилитация след инсулт се извършва от квалифицирани рехабилитатори със специализирано висше медицинско образование и е насочена към запазване на подвижността и профилактика на усложнения.",
+  },
+  {
+    question: "Има ли лекар на разположение?",
+    answer:
+      "Пациентите имат ежедневни лекарски визитации, а екипът включва лекар консултант и анестезиолог-реаниматор за случаите, които го изискват.",
+  },
+  {
+    question: "Полагат ли се грижи за онкологично болни пациенти?",
+    answer:
+      "Да, хосписът предлага палиативни грижи за онкоболни, включващи лекарски контрол на болката и денонощно медицинско наблюдение.",
+  },
+];
 
 
 const SERVICE_CATEGORIES = [
@@ -155,7 +179,17 @@ export default function ServicesPage() {
 
   return (
     <div>
-      <JsonLd data={breadcrumbSchema("Услуги", "/services")} />
+      <JsonLd
+        data={[
+          breadcrumbSchema("Услуги", "/services"),
+          ...serviceSchema(
+            SERVICE_CATEGORIES.map((cat) => ({
+              name: cat.title,
+              description: cat.description,
+            })),
+          ),
+        ]}
+      />
       {/* Page Hero */}
       <section className="pt-28 sm:pt-36 pb-12 bg-gradient-to-br from-primary/90 to-primary/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -231,27 +265,44 @@ export default function ServicesPage() {
             </p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                "Слединсултни състояния",
-                "Деменция и Алцхаймер",
-                "Обездвижени пациенти",
-                "Хронични заболявания",
-                "Следоперативни грижи",
-                "Палиативни грижи",
-              ].map((condition, i) => (
-                <motion.div
-                  key={condition}
-                  initial={{ opacity: 0, y: 50, filter: "blur(8px)", scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, ease: EASE, delay: i * 0.12 }}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-primary/5"
-                >
-                  <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                  <span className="text-foreground text-sm font-medium">
-                    {condition}
-                  </span>
-                </motion.div>
-              ))}
+                { label: "Слединсултни състояния", href: "/grizhi-sled-insult" },
+                { label: "Деменция и Алцхаймер", href: "/demenciya-alzhaimer" },
+                { label: "Обездвижени пациенти", href: null },
+                { label: "Хронични заболявания", href: null },
+                { label: "Следоперативни грижи", href: "/sledoperativno-vazstanovyavane" },
+                { label: "Палиативни грижи", href: "/palliativni-grizhi" },
+              ].map((condition, i) => {
+                const content = (
+                  <>
+                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
+                    <span className="text-foreground text-sm font-medium">
+                      {condition.label}
+                    </span>
+                  </>
+                );
+                return (
+                  <motion.div
+                    key={condition.label}
+                    initial={{ opacity: 0, y: 50, filter: "blur(8px)", scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.6, ease: EASE, delay: i * 0.12 }}
+                  >
+                    {condition.href ? (
+                      <Link
+                        to={condition.href}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-primary/5 hover:bg-primary/10 transition-colors"
+                      >
+                        {content}
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-primary/5">
+                        {content}
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
             <p className="text-foreground/70 text-sm text-center mt-8">
               Всеки пациент получава индивидуални грижи и внимание, а персоналът
@@ -719,6 +770,8 @@ export default function ServicesPage() {
           </motion.div>
         </div>
       </section>
+
+      <FaqSection items={SERVICES_FAQ} />
 
       {/* Closing CTA Banner */}
       <section className="py-16 sm:py-24">

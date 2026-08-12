@@ -2,6 +2,7 @@ import HeroSection from "./home/_components/HeroSection.tsx";
 import TrustSection from "./home/_components/TrustSection.tsx";
 import AboutSection from "./home/_components/AboutSection.tsx";
 import ServicesSection from "./home/_components/ServicesSection.tsx";
+import SpecializedCareSection from "./home/_components/SpecializedCareSection.tsx";
 import ConditionsSection from "./home/_components/ConditionsSection.tsx";
 import TeamSection from "./home/_components/TeamSection.tsx";
 import ReviewsSection from "./home/_components/ReviewsSection.tsx";
@@ -23,6 +24,7 @@ export default function Index() {
       <TrustSection />
       <AboutSection />
       <ServicesSection />
+      <SpecializedCareSection />
       <ConditionsSection />
       <TeamSection />
       <ReviewsSection />

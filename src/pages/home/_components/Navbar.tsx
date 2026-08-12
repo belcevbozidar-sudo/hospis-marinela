@@ -14,6 +14,15 @@ const SPECIALIZED_CARE_ITEMS = CONDITION_PAGES.map((page) => ({
   href: page.path,
 }));
 
+// Short labels for the compact bar shown between the "sm" and "xl"
+// breakpoints (see below) — the full page titles are too long to fit
+// four-across next to the logo at those widths.
+const COMPACT_CARE_LABELS = ["Инсулт", "Палиативни", "Деменция", "Възстановяване"];
+const COMPACT_CARE_ITEMS = CONDITION_PAGES.map((page, i) => ({
+  label: COMPACT_CARE_LABELS[i],
+  href: page.path,
+}));
+
 const NAV_ITEMS: NavItem[] = [
   { label: "Начало", href: "/", type: "page" },
   { label: "За нас", href: "/about", type: "page" },
@@ -185,25 +194,46 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/50 backdrop-blur-xl border-b border-white/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 cursor-pointer">
-            <img
-              src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt.webp"
-              alt="Лого на Хоспис Маринела"
-              width={96}
-              height={96}
-              loading="eager"
-              className="h-10 sm:h-12 w-auto object-contain"
-            />
-            <div className="hidden sm:block">
-              <p className="font-serif text-lg font-bold text-primary leading-tight">
-                {"Хоспис \"Маринела\""}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Домът на нашите пациенти
-              </p>
+          <div className="flex items-center min-w-0">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 cursor-pointer shrink-0">
+              <img
+                src="/assets/file_G5Y3AadLPoi80wWKp3JyQ7jt.webp"
+                alt="Лого на Хоспис Маринела"
+                width={96}
+                height={96}
+                loading="eager"
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
+              <div className="hidden sm:block">
+                <p className="font-serif text-lg font-bold text-primary leading-tight">
+                  {"Хоспис \"Маринела\""}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Домът на нашите пациенти
+                </p>
+              </div>
+            </Link>
+
+            {/* Specialized-care quick links: visible whenever the full
+                desktop nav is collapsed into the hamburger (below xl), so
+                these 4 pages are never hidden behind an extra tap/hover. */}
+            <div className="hidden sm:flex xl:hidden items-center gap-0.5 ml-3 pl-3 border-l border-foreground/10 overflow-x-auto">
+              {COMPACT_CARE_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={`px-2 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-colors ${
+                    location.pathname === item.href
+                      ? "text-primary font-semibold bg-primary/5"
+                      : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
-          </Link>
+          </div>
 
           {/* Desktop nav */}
           <div className="hidden xl:flex items-center gap-0">

@@ -1,19 +1,24 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { CONDITION_PAGES } from "@/pages/conditions/conditions-data.ts";
 
-type NavItem = {
-  label: string;
-  href: string;
-  type: "page" | "section";
-};
+type NavItem =
+  | { label: string; href: string; type: "page" | "section" }
+  | { label: string; type: "dropdown"; children: { label: string; href: string }[] };
+
+const SPECIALIZED_CARE_ITEMS = CONDITION_PAGES.map((page) => ({
+  label: page.title,
+  href: page.path,
+}));
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Начало", href: "/", type: "page" },
   { label: "За нас", href: "/about", type: "page" },
   { label: "Услуги", href: "/services", type: "page" },
+  { label: "Специализирани грижи", type: "dropdown", children: SPECIALIZED_CARE_ITEMS },
   { label: "Прием", href: "/admission", type: "page" },
   { label: "Цени", href: "/prices", type: "page" },
   { label: "Условия", href: "#conditions", type: "section" },
@@ -26,6 +31,8 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -43,7 +50,10 @@ export default function Navbar() {
     }
   };
 
-  const navLinkClasses = (item: NavItem, mobile: boolean) => {
+  const navLinkClasses = (
+    item: { type: string; href?: string },
+    mobile: boolean,
+  ) => {
     const active = item.type === "page" && location.pathname === item.href;
     if (mobile) {
       return `block w-full text-left px-4 py-3 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
@@ -59,8 +69,13 @@ export default function Navbar() {
     }`;
   };
 
-  const renderNavItem = (item: NavItem, mobile: boolean) =>
-    item.type === "page" ? (
+  const renderNavItem = (item: NavItem, mobile: boolean) => {
+    if (item.type === "dropdown") {
+      return mobile
+        ? renderMobileDropdown(item)
+        : renderDesktopDropdown(item);
+    }
+    return item.type === "page" ? (
       <Link
         key={item.label}
         to={item.href}
@@ -78,6 +93,93 @@ export default function Navbar() {
         {item.label}
       </button>
     );
+  };
+
+  const renderDesktopDropdown = (
+    item: Extract<NavItem, { type: "dropdown" }>,
+  ) => (
+    <div
+      key={item.label}
+      className="relative"
+      onMouseEnter={() => setDesktopDropdownOpen(true)}
+      onMouseLeave={() => setDesktopDropdownOpen(false)}
+    >
+      <button
+        onClick={() => setDesktopDropdownOpen(true)}
+        onFocus={() => setDesktopDropdownOpen(true)}
+        aria-expanded={desktopDropdownOpen}
+        className="flex items-center gap-1 px-2 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors rounded-md cursor-pointer whitespace-nowrap"
+      >
+        {item.label}
+        <ChevronDown
+          className={`h-3.5 w-3.5 transition-transform ${desktopDropdownOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      <AnimatePresence>
+        {desktopDropdownOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 top-full mt-1 w-72 bg-white/95 backdrop-blur-xl border border-white/40 rounded-xl shadow-lg overflow-hidden z-50"
+          >
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                to={child.href}
+                onClick={() => setDesktopDropdownOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-foreground hover:bg-primary/5 hover:text-primary transition-colors"
+              >
+                {child.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
+  const renderMobileDropdown = (
+    item: Extract<NavItem, { type: "dropdown" }>,
+  ) => (
+    <div key={item.label}>
+      <button
+        onClick={() => setMobileDropdownOpen((v) => !v)}
+        aria-expanded={mobileDropdownOpen}
+        className="flex items-center justify-between w-full text-left px-4 py-3 text-sm font-medium rounded-lg transition-colors cursor-pointer text-foreground hover:bg-secondary"
+      >
+        {item.label}
+        <ChevronDown
+          className={`h-4 w-4 transition-transform ${mobileDropdownOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      <AnimatePresence>
+        {mobileDropdownOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden pl-4"
+          >
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                to={child.href}
+                onClick={() => {
+                  setIsOpen(false);
+                  setMobileDropdownOpen(false);
+                }}
+                className="block px-4 py-2.5 text-sm text-foreground/80 hover:text-primary transition-colors"
+              >
+                {child.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/50 backdrop-blur-xl border-b border-white/20">
@@ -143,7 +245,7 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="xl:hidden bg-white/70 backdrop-blur-xl border-b border-white/20 overflow-hidden"
           >
-            <div className="px-4 py-4 space-y-2">
+            <div className="px-4 py-4 space-y-2 max-h-[70vh] overflow-y-auto">
               {NAV_ITEMS.map((item) => renderNavItem(item, true))}
               <div className="pt-3 border-t border-border">
                 <div className="flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground flex-wrap">
